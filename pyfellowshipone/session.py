@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 """
-pyfellowshipone.auth
+pyfellowshipone.session
 ~~~~~~~~~~~~~~~~~~~~
 
-This module contains the authentication handler for Fellowship One.
+This module contains the session handler for Fellowship One.
 """
 
 import os
