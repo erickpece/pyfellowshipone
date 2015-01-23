@@ -10,8 +10,8 @@ This module allows for command line interaction with the Fellowship One API.
 import os
 import yaml
 
-from session import F1Session
-from models import Person
+from pyfellowshipone.session import F1Session
+from pyfellowshipone.models import Person
 
 # Load configuration file
 dir = os.path.realpath('.')
