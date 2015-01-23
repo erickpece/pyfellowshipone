@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 
 """
-
 pyfellowshipone.auth
 ~~~~~~~~~~~~~~~~~~~~
 
 This module contains the authentication handler for Fellowship One.
-
 """
 
 import os
@@ -17,7 +15,14 @@ import urlparse
 from base64 import b64encode
 from rauth import OAuth1Service, OAuth1Session
 
+import httplib
+
 class F1Session(OAuth1Session):
+
+	"""
+	Creates a Fellowship One Session using OAuth1Session from rauth
+	"""
+
 	def hash_credentials(self, username, password):
 		credentials = b64encode( "%s %s" % ( username, password ) )
 		credentials = urllib.quote_plus( credentials )
@@ -37,7 +42,10 @@ class F1Session(OAuth1Session):
 		else:
 			self.url = "https://%s.staging.fellowshiponeapi.com/v1/" % self.churchCode
 
-		credentials = self.hash_credentials(username, password)
+		self.authenticate()
+
+	def authenticate(self):
+		credentials = self.hash_credentials(self.username, self.password)
 
 		service = OAuth1Service (
 			consumer_key = self.consumerKey,
@@ -62,7 +70,13 @@ class F1Session(OAuth1Session):
 
 		self.session = session
 
-	def get(self, resource, parameters=""):
-		request_url = "%s%s" % (self.url, resource)
+	# Strips any leading forward slashes from the endpoint
+	def clean_endpoint(self, endpoint):
+		return endpoint.lstrip('//')
+
+	def get(self, endpoint, parameters=""):
+		request_url = "%s%s" % (self.url, self.clean_endpoint(endpoint))
+
+		print "Starting request %s with %s" % (request_url, parameters)
 
 		return self.session.get(request_url, headers={"Accept": "application/json"}, params=parameters)
