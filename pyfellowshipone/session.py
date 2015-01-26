@@ -8,6 +8,7 @@ This module contains the session handler for Fellowship One.
 """
 
 import os
+import json
 import rauth
 import urllib
 import urlparse
@@ -44,6 +45,13 @@ class F1Session(OAuth1Session):
 
 		self.authenticate()
 
+	def patch_send(self):
+	    old_send= httplib.HTTPConnection.send
+	    def new_send( self, data ):
+	        print data
+	        return old_send(self, data) #return is not necessary, but never hurts, in case the library is changed
+	    httplib.HTTPConnection.send= new_send
+
 	def authenticate(self):
 		credentials = self.hash_credentials(self.username, self.password)
 
@@ -74,9 +82,19 @@ class F1Session(OAuth1Session):
 	def clean_endpoint(self, endpoint):
 		return endpoint.lstrip('//')
 
-	def get(self, endpoint, parameters=""):
+	def get(self, endpoint, **kwargs):
+		# Enable next line for debugging
+		# self.patch_send()
 		request_url = "%s%s" % (self.url, self.clean_endpoint(endpoint))
 
-		print "Starting request %s with %s" % (request_url, parameters)
+		# print "Starting request %s with %s" % (request_url,)
 
-		return self.session.get(request_url, headers={"Accept": "application/json"}, params=parameters)
+		return self.session.get(request_url, header_auth=True, headers={"Accept": "application/json"}, **kwargs)
+
+	def post(self, endpoint, **kwargs):
+		# Enable next line for debugging
+		# self.patch_send()
+
+		request_url = "%s%s" % (self.url, self.clean_endpoint(endpoint))
+
+		return self.session.post(request_url, header_auth=False, headers={"Accept": "application/json", "Content-type": "application/json"}, **kwargs)
