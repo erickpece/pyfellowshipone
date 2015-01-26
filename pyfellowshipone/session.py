@@ -38,9 +38,9 @@ class F1Session(OAuth1Session):
 		self.staging = staging
 
 		if self.staging:
-			self.url = "https://%s.fellowshiponeapi.com/v1/" % self.churchCode
+			self.url = "https://%s.fellowshiponeapi.com/" % self.churchCode
 		else:
-			self.url = "https://%s.staging.fellowshiponeapi.com/v1/" % self.churchCode
+			self.url = "https://%s.staging.fellowshiponeapi.com/" % self.churchCode
 
 		self.authenticate()
 
