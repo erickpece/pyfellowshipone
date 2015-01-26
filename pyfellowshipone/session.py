@@ -50,7 +50,7 @@ class F1Session(OAuth1Session):
 		service = OAuth1Service (
 			consumer_key = self.consumerKey,
 			consumer_secret = self.consumerSecret,
-			request_token_url = "%sPortalUser/AccessToken" % self.url
+			request_token_url = "%sv1/PortalUser/AccessToken" % self.url
 		)
 
 		tokens = service.get_raw_request_token(data = credentials)
