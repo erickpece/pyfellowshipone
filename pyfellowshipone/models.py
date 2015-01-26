@@ -40,7 +40,7 @@ class Person(object):
         self.gender = json['gender']
 
     def describe(self):
-        return "%s: %s %s" % (self.id, self.firstName, self.lastName)
+        return "%s: %s %s" % (self.id, self.first_name, self.last_name)
 
     def json(self):
         return json.dumps(self.__dict__)
