@@ -10,13 +10,13 @@ This module contains the session handler for Fellowship One.
 import os
 import json
 import rauth
-import urllib
-import urlparse
+import urllib.request, urllib.parse, urllib.error
+import urllib.parse
 
 from base64 import b64encode
 from rauth import OAuth1Service, OAuth1Session
 
-import httplib
+import http.client
 
 class F1Session(OAuth1Session):
 
@@ -25,8 +25,9 @@ class F1Session(OAuth1Session):
 	"""
 
 	def hash_credentials(self, username, password):
-		credentials = b64encode( "%s %s" % ( username, password ) )
-		credentials = urllib.quote_plus( credentials )
+		credential_string = "{} {}".format(username, password)
+		credentials = b64encode(bytes(credential_string, "utf-8"))
+		credentials = urllib.parse.quote_plus( credentials )
 
 		return credentials
 
@@ -46,11 +47,11 @@ class F1Session(OAuth1Session):
 		self.authenticate()
 
 	def patch_send(self):
-	    old_send= httplib.HTTPConnection.send
+	    old_send= http.client.HTTPConnection.send
 	    def new_send( self, data ):
-	        print data
+	        print(data)
 	        return old_send(self, data) #return is not necessary, but never hurts, in case the library is changed
-	    httplib.HTTPConnection.send= new_send
+	    http.client.HTTPConnection.send= new_send
 
 	def authenticate(self):
 		credentials = self.hash_credentials(self.username, self.password)
@@ -62,12 +63,13 @@ class F1Session(OAuth1Session):
 		)
 
 		tokens = service.get_raw_request_token(data = credentials)
-		tokens_content = urlparse.parse_qs(tokens.content)
+		tokens_content = urllib.parse.parse_qs(tokens.content)
 
-		oauth_token = tokens_content['oauth_token'][0]
-		oauth_tokensecret = tokens_content['oauth_token_secret'][0]
+		oauth_token = tokens_content[b'oauth_token'][0].decode()
+		oauth_tokensecret = tokens_content[b'oauth_token_secret'][0].decode()
 
 		# Add debug logging here to display credentials and tokens
+		# print("Token: {}\nSecret: {}".format(oauth_token, oauth_tokensecret))
 
 		session = OAuth1Session (
 			self.consumerKey,
