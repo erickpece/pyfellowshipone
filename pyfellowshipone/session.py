@@ -31,18 +31,13 @@ class F1Session(OAuth1Session):
 
 		return credentials
 
-	def __init__(self, consumerKey, consumerSecret, username, password, churchCode, staging = False):
+	def __init__(self, consumerKey, consumerSecret, username, password, url):
 		self.consumerKey = consumerKey
 		self.consumerSecret = consumerSecret
 		self.username = username
 		self.password = password
-		self.churchCode = churchCode
+		self.url = url
 		self.staging = staging
-
-		if self.staging:
-			self.url = "https://%s.fellowshiponeapi.com/" % self.churchCode
-		else:
-			self.url = "https://%s.staging.fellowshiponeapi.com/" % self.churchCode
 
 		self.authenticate()
 

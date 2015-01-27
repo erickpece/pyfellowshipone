@@ -9,6 +9,7 @@ This module allows for command line interaction with the Fellowship One API.
 
 import os
 import yaml
+import requests
 
 from pyfellowshipone.session import F1Session
 from pyfellowshipone.models import Person
@@ -26,7 +27,7 @@ session = F1Session(
 	auth_settings['secret'], 
 	auth_settings['username'], 
 	auth_settings['password'], 
-	auth_settings['church_code']
+	auth_settings['url']
 )
 
 payload = {'communication': 'EMAIL'}

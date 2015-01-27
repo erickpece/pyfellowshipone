@@ -1,13 +1,13 @@
 authentication:
     staging:
-        church_code: churchcode
+        url: baseurl
         username: username
         password: password
         key: 123
         secret: 123abc-456def
 
     production:
-        church_code: churchcode
+        url: baseurl
         username: username
         password: password
         key: 123
