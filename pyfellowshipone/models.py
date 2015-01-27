@@ -9,8 +9,20 @@ This module contains Fellowship One API Objects.
 
 import json
 
+class Fund:
+    def __init__(self, **kwargs):
+        self.fund_id = kwargs.get('fund_id')
+        self.fund_name = kwargs.get('fund_name')
+        self.contribution_type = kwargs.get('contribution_type')
 
-class Person(object):
+    def __str__(self):
+        return '{}: {}, {}'.format(
+            self.fund_id, 
+            self.fund_name, 
+            self.contribution_type
+        )
+
+class Person:
     __attrs__ = [
         'id',
         'household_id',
