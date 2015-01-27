@@ -9,6 +9,7 @@ This module contains Fellowship One API Objects.
 
 import json
 
+
 class Person(object):
     __attrs__ = [
         'id',

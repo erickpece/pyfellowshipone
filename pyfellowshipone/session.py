@@ -11,12 +11,12 @@ import os
 import json
 import rauth
 import urllib.request, urllib.parse, urllib.error
-import urllib.parse
 
 from base64 import b64encode
 from rauth import OAuth1Service, OAuth1Session
 
 import http.client
+
 
 class F1Session(OAuth1Session):
 
