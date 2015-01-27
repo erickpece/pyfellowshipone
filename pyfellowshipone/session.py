@@ -37,7 +37,6 @@ class F1Session(OAuth1Session):
 		self.username = username
 		self.password = password
 		self.url = url
-		self.staging = staging
 
 		self.authenticate()
 
