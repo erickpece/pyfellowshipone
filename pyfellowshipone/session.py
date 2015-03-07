@@ -78,18 +78,19 @@ class F1Session(OAuth1Session):
 	def clean_endpoint(self, endpoint):
 		return endpoint.lstrip('//')
 
-	def get(self, endpoint, **kwargs):
-		# Enable next line for debugging
-		# self.patch_send()
+	def get(self, endpoint, debug = False, **kwargs):
+		if debug:		
+			self.patch_send()
+			
 		request_url = "%s%s" % (self.url, self.clean_endpoint(endpoint))
 
 		# print "Starting request %s with %s" % (request_url,)
 
 		return self.session.get(request_url, header_auth=True, headers={"Accept": "application/json"}, **kwargs)
 
-	def post(self, endpoint, **kwargs):
-		# Enable next line for debugging
-		# self.patch_send()
+	def post(self, endpoint, debug = False, **kwargs):
+		if debug:		
+			self.patch_send()
 
 		request_url = "%s%s" % (self.url, self.clean_endpoint(endpoint))
 
