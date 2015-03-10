@@ -5,7 +5,7 @@ import yaml
 import collections
 import urllib
 import pprint
-from response_object import ResponseObject
+from .response_object import ResponseObject
 
 from rauth import *
 from base64 import b64encode
