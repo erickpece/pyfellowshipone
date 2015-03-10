@@ -11,7 +11,7 @@ from rauth import *
 from base64 import b64encode
 
 
-class F1Session(OAuth1Session):
+class F1API(OAuth1Session):
 	"""
 	Creates a Fellowship One Session using OAuth1Session from rauth
 	"""
@@ -143,28 +143,3 @@ class F1Session(OAuth1Session):
 				return ResponseObject(success = False, result = action_response)
 
 		return ResponseObject(message = "Failed to perform action")
-
-
-# Load configuration file
-config_path = os.path.realpath("../config.yml")
-stream = open(config_path, 'r')
-config = yaml.load(stream)
-
-auth_settings = config['authentication']['staging']
-
-c = F1Session(
-	consumerKey = auth_settings['key'],
-	consumerSecret = auth_settings['secret'],
-	username = auth_settings['username'],
-	password = auth_settings['password'],
-	url = auth_settings['url']
-	)
-
-# x = c.households_show(id=25117384)
-
-search_parameters = {}
-search_parameters['searchFor'] = '{} {}'.format("Erick", "Pece").strip()
-
-x = c.people_search(params=search_parameters)
-
-print(x.model)
